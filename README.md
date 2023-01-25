@@ -1,1 +1,2 @@
 # Music-Player
+This code is a simple music player that utilizes tkinter and pygame library. It has basic features such as play, pause, resume, next and previous song, and volume control. It also has an option to add a song by inputting the song name and adding it to the song_list. The user interface is created with tkinter and the music playback is handled by pygame. The code can be improved by adding a search function and a database to store and retrieve song information. The code is open-source and contributions are welcome.
