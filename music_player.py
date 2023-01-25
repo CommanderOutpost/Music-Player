@@ -54,6 +54,7 @@ current_song = 0
 root = tk.Tk()
 root.title("😆😆Music Player")
 root.geometry('1366x768')
+root.config(bg='#03001C')
 
 play_button = tk.Button(root, text="Play", command=play_music)
 play_button.place(x=650, y=650)
@@ -91,5 +92,4 @@ add_button.pack()
 
 
 pygame.mixer.init()
-root.config(bg='#03001C')
 root.mainloop()
