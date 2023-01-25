@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import simpledialog
 import pygame
 
 def play_music():
@@ -45,7 +46,7 @@ music_file = "Input file path here"
 song_list = []
 
 def add_song():
-    song_name = input("Enter the name of the song: ")
+    song_name = simpledialog.askstring("Input", "Enter the name of the song: ", parent=root)
     song_list.append(music_file + song_name)
 
 current_song = 0
@@ -54,7 +55,7 @@ root = tk.Tk()
 root.title("😆😆Music Player")
 root.geometry('1366x768')
 
-play_button = tk.Button(root, text="Play", command=play_or_resume)
+play_button = tk.Button(root, text="Play", command=play_music)
 play_button.place(x=650, y=650)
 play_button.config(bg='#5B8FB9')
 
