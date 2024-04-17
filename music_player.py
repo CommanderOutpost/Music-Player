@@ -1,95 +1,47 @@
-import tkinter as tk
-from tkinter import simpledialog
-import pygame
+class MusicPlayer:
+    def __init__(self):
+        pygame.mixer.init()
+        self.current_song = 0
+        self.song_list = []
+        self.root = tk.Tk()
+        self.root.title('😆😆Music Player')
+        self.root.geometry('1366x768')
+        self.root.config(bg='#03001C')
+        self.setup_ui()
 
-def play_music():
-    pygame.mixer.init()
-    pygame.mixer.music.load(song_list[current_song])
-    pygame.mixer.music.set_volume(0.5)
-    pygame.mixer.music.play()
-    current_song_label.config(text=song_list[current_song])
+    def setup_ui(self):
+        play_button = tk.Button(self.root, text='Play', command=self.play_music)
+        play_button.place(x=650, y=650)
+        play_button.config(bg='#5B8FB9')
 
-def pause_music():
-    pygame.mixer.music.pause()
+        # Add more UI setup here, refactored similar to the play_button creation
 
-def resume_music():
-    pygame.mixer.music.unpause()
+    def play_music(self):
+        pygame.mixer.music.load(self.song_list[self.current_song])
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play()
+        current_song_label.config(text=self.song_list[self.current_song])
 
-def play_or_resume():
-    if pygame.mixer.music.get_busy():
-        resume_music()
-    else:
-        play_music()
+    def pause_music(self):
+        pygame.mixer.music.pause()
 
-def next_song():
-    global current_song
-    current_song += 1
-    if current_song >= len(song_list):
-        current_song = 0
-    pygame.mixer.music.stop()
-    play_music()
+    def resume_music(self):
+        pygame.mixer.music.unpause()
 
-def prev_song():
-    global current_song
-    current_song -= 1
-    if current_song < 0:
-        current_song = len(song_list) - 1
-    pygame.mixer.music.stop()
-    play_music()
+    def next_song(self):
+        self.current_song = (self.current_song + 1) % len(self.song_list)
+        pygame.mixer.music.stop()
+        self.play_music()
 
-def set_volume(val):
-    volume = float(val)
-    pygame.mixer.music.set_volume(volume)
-    volume_label.config(text=f'Volume: {int(volume*100)}')
+    def prev_song(self):
+        self.current_song = (self.current_song - 1) % len(self.song_list)
+        pygame.mixer.music.stop()
+        self.play_music()
 
-music_file = "Input file path here"
-song_list = []
+    def add_song(self):
+        song_name = simpledialog.askstring('Input', 'Enter the name of the song: ', parent=self.root)
+        self.song_list.append(os.path.join('music_folder', song_name))
 
-def add_song():
-    song_name = simpledialog.askstring("Input", "Enter the name of the song: ", parent=root)
-    song_list.append(music_file + song_name)
-
-current_song = 0
-
-root = tk.Tk()
-root.title("😆😆Music Player")
-root.geometry('1366x768')
-root.config(bg='#03001C')
-
-play_button = tk.Button(root, text="Play", command=play_music)
-play_button.place(x=650, y=650)
-play_button.config(bg='#5B8FB9')
-
-pause_button = tk.Button(root, text="Pause", command=pause_music)
-pause_button.place(x=550, y=650)
-pause_button.config(bg='#5B8FB9')
-
-resume_button = tk.Button(root, text="Resume", command=resume_music)
-resume_button.place(x=740, y=650)
-resume_button.config(bg='#5B8FB9')
-
-next_button = tk.Button(root, text="Next", command=next_song)
-next_button.place(x=845, y=650)
-next_button.config(bg='#5B8FB9')
-
-prev_button = tk.Button(root, text="Prev", command=prev_song)
-prev_button.place(x=470, y=650)
-prev_button.config(bg='#5B8FB9')
-
-volume_scale = tk.Scale(root, from_=0, to=1, resolution=0.1, orient=tk.HORIZONTAL, command=set_volume)
-volume_scale.set(0.5)
-volume_scale.place(x=1200, y=650)
-volume_scale.config(bg='#5B8FB9')
-
-volume_label = tk.Label(root)
-volume_label.place(x=1200, y=630)
-
-current_song_label = tk.Label(root)
-current_song_label.place(x=500, y=600)
-
-add_button = tk.Button(root, text="Add Song", command=add_song)
-add_button.pack()
-
-
-pygame.mixer.init()
-root.mainloop()
+if __name__ == '__main__':
+    app = MusicPlayer()
+    app.root.mainloop()
